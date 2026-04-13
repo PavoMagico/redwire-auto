@@ -9,8 +9,8 @@ const PORT = process.env.PORT || 3001;
 app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
 app.use(express.json());
 app.use('/api', routes);
-app.get('/', (_, res) => res.json({ status: 'Red Wire Auto API v1.0' }));
+app.get('/', (_, res) => res.json({ status: 'Red Wire Auto API v1.0 running' }));
 
 app.listen(PORT, () =>
-  console.log(`\n Red Wire Auto API corriendo en http://localhost:${PORT}\n`)
+  console.log(`\n🚗 Red Wire Auto API → http://localhost:${PORT}\n`)
 );

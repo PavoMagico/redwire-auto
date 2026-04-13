@@ -1,0 +1,16 @@
+# Dependencias
+node_modules/
+
+# Variables de entorno (nunca subir al repo)
+.env
+server/.env
+client/.env
+
+# Build de producción
+client/dist/
+
+# Editores
+.vscode/
+.idea/
+*.swp
+.DS_Store

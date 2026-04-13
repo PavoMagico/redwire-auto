@@ -1,0 +1,30 @@
+:root {
+  --rojo: #BE3D3D;
+  --rojo-dark: #9e3030;
+  --negro: #010001;
+  --gris: #525252;
+  --gris-fondo: #A39796;
+  --blanco: #FCFCFA;
+  --border: #E0DEDA;
+  --fondo: #F5F4F2;
+  --radius: 10px;
+  --shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', sans-serif; background: var(--blanco); color: var(--negro); line-height: 1.6; }
+a { text-decoration: none; color: inherit; }
+button { cursor: pointer; font-family: inherit; border: none; outline: none; }
+input, select, textarea { font-family: inherit; border: 1.5px solid var(--border); border-radius: var(--radius); padding: 10px 14px; font-size: 14px; background: white; width: 100%; transition: border-color .2s; }
+input:focus, select:focus { outline: none; border-color: var(--rojo); }
+.btn-primary { background: var(--rojo); color: white; padding: 12px 28px; border-radius: var(--radius); font-size: 15px; font-weight: 600; transition: background .2s; cursor: pointer; border: none; }
+.btn-primary:hover { background: var(--rojo-dark); }
+.btn-secondary { background: transparent; color: var(--rojo); border: 1.5px solid var(--rojo); padding: 10px 22px; border-radius: var(--radius); font-size: 14px; font-weight: 500; cursor: pointer; transition: all .2s; }
+.btn-secondary:hover { background: var(--rojo); color: white; }
+.card { background: white; border: 1px solid var(--border); border-radius: 14px; padding: 24px; box-shadow: var(--shadow); }
+.spinner { width: 36px; height: 36px; border: 3px solid var(--border); border-top-color: var(--rojo); border-radius: 50%; animation: spin .7s linear infinite; margin: 40px auto; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.page { max-width: 1100px; margin: 0 auto; padding: 40px 24px; }
+.etiqueta { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; }
+.etiqueta-ZERO { background: #E3F5E1; color: #2E7D32; }
+.etiqueta-ECO  { background: #E8F5E9; color: #388E3C; }
+.etiqueta-C    { background: #FFF3E0; color: #E65100; }
