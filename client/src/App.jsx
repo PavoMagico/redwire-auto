@@ -1,5 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import Navbar        from './components/Navbar';
+import Footer        from './components/Footer';
 import Home          from './pages/Home';
 import Test          from './pages/Test';
 import Results       from './pages/Results';
@@ -13,7 +14,7 @@ import PrivateRoute  from './components/PrivateRoute';
 
 export default function App() {
   return (
-    <>
+    <div className="app-shell">
       <Navbar />
       <Routes>
         <Route path="/"              element={<Home />} />
@@ -26,6 +27,7 @@ export default function App() {
         <Route path="/garaje"        element={<PrivateRoute><Garage /></PrivateRoute>} />
         <Route path="/admin"         element={<PrivateRoute adminOnly><Admin /></PrivateRoute>} />
       </Routes>
-    </>
+      <Footer />
+    </div>
   );
 }

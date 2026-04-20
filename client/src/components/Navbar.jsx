@@ -1,38 +1,60 @@
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import Logo from './Logo';
 
 export default function Navbar() {
   const { user, logout, isAdmin } = useAuth();
-  const navigate = useNavigate();
+  const navigate  = useNavigate();
   const { pathname } = useLocation();
-  const active = p => pathname === p ? { color: 'var(--rojo)', fontWeight: 600 } : {};
+  const isActive = p => pathname === p ? 'active' : '';
 
   return (
-    <nav style={{ background: 'white', borderBottom: '1px solid var(--border)', position: 'sticky', top: 0, zIndex: 100 }}>
-      <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 24px', height: 60, display: 'flex', alignItems: 'center', gap: 32 }}>
-        <Link to="/" style={{ fontWeight: 800, fontSize: 17, letterSpacing: 1 }}>
-          <span style={{ color: 'var(--rojo)' }}>RED</span> WIRE AUTO
-        </Link>
-        <div style={{ display: 'flex', gap: 24, flex: 1 }}>
-          <Link to="/"              style={active('/')}>Inicio</Link>
-          <Link to="/test"          style={active('/test')}>Test</Link>
-          <Link to="/concesionario" style={active('/concesionario')}>Concesionario</Link>
-          {user && <Link to="/garaje" style={active('/garaje')}>Mi Garaje</Link>}
-          {isAdmin && <Link to="/admin" style={{ ...active('/admin'), color: 'var(--rojo)' }}>Admin</Link>}
-        </div>
-        <div>
-          {user ? (
-            <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-              <span style={{ fontSize: 14, color: 'var(--gris)' }}>Hola, {user.nombre.split(' ')[0]}</span>
-              <button onClick={() => { logout(); navigate('/'); }}
-                style={{ fontSize: 13, color: 'var(--gris)', background: 'none', border: '1px solid var(--border)', borderRadius: 6, padding: '5px 12px', cursor: 'pointer' }}>
-                Salir
-              </button>
+    <nav className="nav">
+      <Link to="/" className="brand">
+        <Logo size={28} />
+      </Link>
+
+      <ul>
+        <li><Link to="/" className={isActive('/')}>Inicio</Link></li>
+        <li><Link to="/test" className={isActive('/test')}>Test</Link></li>
+        <li><Link to="/concesionario" className={isActive('/concesionario')}>Concesionario</Link></li>
+        {user && <li><Link to="/garaje" className={isActive('/garaje')}>Mi Garaje</Link></li>}
+        {isAdmin && <li><Link to="/admin" className={isActive('/admin')} style={{ color: 'var(--rojo)' }}>Admin</Link></li>}
+      </ul>
+
+      <div className="nav-actions">
+        {user ? (
+          <>
+            <div style={{
+              display: 'flex', alignItems: 'center', gap: 8,
+              padding: '8px 14px', borderRadius: 999,
+              boxShadow: 'inset 0 0 0 1px rgba(1,0,1,.12)',
+              fontSize: 14, fontWeight: 500
+            }}>
+              <span style={{
+                width: 26, height: 26, borderRadius: '50%',
+                background: 'var(--rojo)', color: 'white',
+                display: 'inline-grid', placeItems: 'center',
+                fontSize: 11, fontWeight: 700
+              }}>
+                {user.nombre?.[0]?.toUpperCase() || 'U'}
+              </span>
+              {user.nombre?.split(' ')[0]}
             </div>
-          ) : (
-            <Link to="/login" className="btn-primary" style={{ padding: '8px 20px', fontSize: 14 }}>Login</Link>
-          )}
-        </div>
+            <button className="btn btn-ghost"
+              onClick={() => { logout(); navigate('/'); }}
+              style={{ fontSize: 13 }}>
+              Salir
+            </button>
+          </>
+        ) : (
+          <>
+            <Link to="/login" className="btn btn-ghost" style={{ fontSize: 13 }}>Entrar</Link>
+            <Link to="/test" className="btn btn-red">
+              Empezar test <span className="arrow">→</span>
+            </Link>
+          </>
+        )}
       </div>
     </nav>
   );
