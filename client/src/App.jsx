@@ -11,6 +11,8 @@ import Dealership    from './pages/Dealership';
 import VehicleDetail from './pages/VehicleDetail';
 import Admin         from './pages/Admin';
 import PrivateRoute  from './components/PrivateRoute';
+import Compare       from './pages/Compare';
+import CompareBar    from './components/CompareBar';
 
 export default function App() {
   return (
@@ -26,8 +28,10 @@ export default function App() {
         <Route path="/vehiculo/:id"  element={<VehicleDetail />} />
         <Route path="/garaje"        element={<PrivateRoute><Garage /></PrivateRoute>} />
         <Route path="/admin"         element={<PrivateRoute adminOnly><Admin /></PrivateRoute>} />
+        <Route path="/comparar"      element={<Compare />} />
       </Routes>
       <Footer />
+      <CompareBar />
     </div>
   );
 }

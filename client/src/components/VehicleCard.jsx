@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import { useState } from 'react';
 import CarSilhouette, { variantFromPlazas } from './CarSilhouette';
 import EnvBadge from './EnvBadge';
+import { useCompare } from '../hooks/useCompare';
 
 function ArrowIcon() {
   return (
@@ -26,6 +27,15 @@ export default function VehicleCard({ vehiculo, afinidad, onRemove }) {
   const navigate  = useNavigate();
   const [saved,   setSaved]   = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const { addToCompare, isInCompare } = useCompare();
+  const [inCompare, setInCompare] = useState(isInCompare(vehiculo.id_vehiculo));
+
+  const handleCompare = (e) => {
+    e.stopPropagation();
+    const added = addToCompare(vehiculo);
+    if (added) setInCompare(true);
+  };
 
   const variant = variantFromPlazas(vehiculo.plazas);
 
@@ -120,6 +130,21 @@ export default function VehicleCard({ vehiculo, afinidad, onRemove }) {
           <span className="tag">{vehiculo.motor}</span>
           <span className="tag">{vehiculo.plazas} plazas</span>
         </div>
+
+        <button
+          onClick={handleCompare}
+          disabled={inCompare}
+          style={{
+            width: '100%', padding: '8px', borderRadius: 8,
+            background: inCompare ? 'var(--bg-2)' : 'transparent',
+            border: '1px solid rgba(1,0,1,.1)',
+            color: inCompare ? 'var(--grafito)' : 'var(--ink)',
+            fontSize: 12, fontWeight: 600, cursor: inCompare ? 'default' : 'pointer',
+            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
+          }}
+        >
+          {inCompare ? '✓ En comparador' : '⇄ Añadir a comparar'}
+        </button>
 
         <div style={{
           display: 'flex', justifyContent: 'space-between', alignItems: 'center',
