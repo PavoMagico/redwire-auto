@@ -58,6 +58,24 @@ INSERT INTO vehiculos (marca, modelo, precio, motor, etiqueta, plazas, detalles)
 ('Dacia',      'Sandero',        11900, 'Gasolina',  'ECO',  5, 'El más económico del mercado. Sin florituras.'),
 ('Hyundai',    'Tucson Hybrid',  35000, 'Hibrid',    'ECO',  5, 'SUV híbrido completo con garantía de 5 años.');
 
+INSERT INTO vehiculos (marca, modelo, precio, motor, etiqueta, plazas, detalles) VALUES
+('Skoda',      'Octavia TDI',    24900, 'Diesel',    'C',    5, 'La berlina más racional del mercado. Maletero XXL y bajo consumo en ruta.'),
+('Nissan',     'Qashqai dCi',    29500, 'Diesel',    'C',    5, 'El SUV que inventó el segmento. Fiable, espacioso y eficiente en autovía.'),
+('Fiat',       '500e',           24500, 'Electrico', 'ZERO', 4, 'El icono italiano reinventado. Ideal para ciudad con etiqueta ZERO.'),
+('Tesla',      'Model 3',        42900, 'Electrico', 'ZERO', 5, 'El eléctrico de referencia. Autopilot, 500 km de autonomía y rendimiento brutal.'),
+('Kia',        'EV6',            45000, 'Electrico', 'ZERO', 5, 'Carga ultrarrápida en 18 minutos. El eléctrico más tecnológico de su segmento.'),
+('Citroën',    'C5 Aircross',    31000, 'Hibrid',    'ECO',  5, 'El SUV más confortable de Francia. Suspensión hidráulica y habitáculo premium.'),
+('Kia',        'Sorento PHEV',   52000, 'Hibrid',    'ECO',  7, 'SUV familiar enchufable de 7 plazas. Todo terreno suave con zero en ciudad.'),
+('Ford',       'S-Max',          36000, 'Diesel',    'C',    7, 'El monovolumen deportivo. 7 plazas reales con conducción dinámica.'),
+('Dacia',      'Spring',          9900, 'Electrico', 'ZERO', 4, 'El eléctrico más barato de Europa. Ciudad pura sin complicaciones.'),
+('Volkswagen', 'Polo',           15000, 'Gasolina',  'ECO',  5, 'Un Golf más pequeño y asequible. Calidad alemana en formato urbano.'),
+('Toyota',     'GR86',           32500, 'Gasolina',  'C',    4, 'Deportivo puro de tracción trasera. Heredero espiritual del AE86.'),
+('Alpine',     'A110',           62000, 'Gasolina',  'C',    2, 'El deportivo europeo más puro. Ligero, rápido y con alma de piloto.'),
+('Toyota',     'Camry Hybrid',   37000, 'Hibrid',    'ECO',  5, 'La berlina híbrida más fiable del mundo. Cero averías, máximo confort.'),
+('Honda',      'Accord Hybrid',  39500, 'Hibrid',    'ECO',  5, 'Berlina ejecutiva híbrida. Silenciosa, espaciosa y con acabados premium.'),
+('Dacia',      'Duster',         18500, 'Gasolina',  'B',    5, 'El SUV barato que conquista cualquier terreno. Sin lujos, con carácter.'),
+('Jeep',       'Renegade',       22000, 'Gasolina',  'B',    5, 'Pequeño por fuera, aventurero por dentro. Capacidad offroad en formato urbano.');
+
 -- Admin de prueba (password: Admin123)
 INSERT INTO usuarios (nombre, email, password, rol) VALUES
 ('Admin RWA', 'admin@redwire.auto', '$2b$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy', 'admin');
