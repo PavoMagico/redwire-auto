@@ -34,18 +34,21 @@ export default function Admin() {
   const [showForm,  setShowForm]  = useState(false);
   const [usuarios, setUsuarios] = useState([]);
   const [testLogs, setTestLogs] = useState([]);
+  const [stats, setStats] = useState({ tests: null, media: null });
 
   useEffect(() => { fetchData(); }, []);
   const fetchData = async () => {
     const { data } = await vehiclesAPI.getAll();
     setVehiculos(data);
     try {
-      const [uRes, tRes] = await Promise.all([
+      const [uRes, tRes, sRes] = await Promise.all([
         api.get('/admin/users'),
         api.get('/admin/tests'),
+        api.get('/stats'),
       ]);
       setUsuarios(uRes.data);
       setTestLogs(tRes.data);
+      setStats(sRes.data);
     } catch (e) { console.warn('Admin fetch error', e); }
   };
 
@@ -98,9 +101,9 @@ export default function Admin() {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 14, marginBottom: 28 }}>
         {[
           { l: 'Vehículos activos', v: vehiculos.length, c: 'var(--rojo)' },
-          { l: 'Tests completados', v: '—', c: 'var(--ink)' },
-          { l: 'Match medio', v: '94 %', c: 'var(--ink)' },
-          { l: 'Stock total', v: '—', c: 'var(--ink)' },
+          { l: 'Tests completados', v: stats.tests !== null ? Number(stats.tests).toLocaleString('es-ES') : '—', c: 'var(--ink)' },
+          { l: 'Match medio', v: stats.media !== null && stats.media > 0 ? `${stats.media} %` : '—', c: 'var(--ink)' },
+          { l: 'Stock total', v: vehiculos.length, c: 'var(--ink)' },
         ].map((s, i) => (
           <div key={i} className="bounce-in" style={{
             animationDelay: `${i * .08}s`,
