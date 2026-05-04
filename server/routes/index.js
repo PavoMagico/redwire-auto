@@ -7,6 +7,7 @@ const { getVehicles, getVehicleById, createVehicle,
 const { processTest }                               = require('../controllers/testController');
 const { getGarage, addToGarage, removeFromGarage } = require('../controllers/garageController');
 const { verifyToken, verifyAdmin }                  = require('../middleware/auth');
+const { getAllUsers, updateUserRole, deleteUser }    = require('../controllers/userController');
 
 // Auth
 router.post('/auth/register', register);
@@ -28,5 +29,28 @@ router.delete('/user/garage/:id', verifyToken, removeFromGarage);
 router.post('/admin/catalog',        verifyAdmin, createVehicle);
 router.put('/admin/catalog/:id',     verifyAdmin, updateVehicle);
 router.delete('/admin/catalog/:id',  verifyAdmin, deleteVehicle);
+
+router.get('/admin/users',           verifyAdmin, getAllUsers);
+router.put('/admin/users/:id/role',  verifyAdmin, updateUserRole);
+router.delete('/admin/users/:id',    verifyAdmin, deleteUser);
+
+router.get('/admin/tests', verifyAdmin, async (req, res) => {
+  const pool = require('../config/db');
+  try {
+    const [rows] = await pool.query(`
+      SELECT t.id_test, t.afinidad, t.fecha,
+             u.nombre AS usuario, u.email,
+             v.marca, v.modelo
+      FROM tests t
+      JOIN usuarios u ON t.id_usuario = u.id_usuario
+      JOIN vehiculos v ON t.id_vehiculo = v.id_vehiculo
+      ORDER BY t.fecha DESC
+      LIMIT 100
+    `);
+    res.json(rows);
+  } catch (err) {
+    res.status(500).json({ error: 'Error interno.' });
+  }
+});
 
 module.exports = router;

@@ -31,9 +31,45 @@ export default function Admin() {
   const [msg,       setMsg]       = useState('');
   const [tab,       setTab]       = useState('vehiculos');
   const [showForm,  setShowForm]  = useState(false);
+  const [usuarios, setUsuarios] = useState([]);
+  const [testLogs, setTestLogs] = useState([]);
 
   useEffect(() => { fetchData(); }, []);
-  const fetchData = async () => { const { data } = await vehiclesAPI.getAll(); setVehiculos(data); };
+  const fetchData = async () => {
+    const { data } = await vehiclesAPI.getAll();
+    setVehiculos(data);
+    try {
+      const token = localStorage.getItem('token');
+      const headers = { Authorization: `Bearer ${token}` };
+      const [uRes, tRes] = await Promise.all([
+        fetch('/api/admin/users', { headers }),
+        fetch('/api/admin/tests', { headers }),
+      ]);
+      if (uRes.ok) setUsuarios(await uRes.json());
+      if (tRes.ok) setTestLogs(await tRes.json());
+    } catch (e) { console.warn('Admin fetch error', e); }
+  };
+
+  const handleRoleToggle = async (id, currentRol) => {
+    const newRol = currentRol === 'admin' ? 'user' : 'admin';
+    const token = localStorage.getItem('token');
+    await fetch(`/api/admin/users/${id}/role`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+      body: JSON.stringify({ rol: newRol }),
+    });
+    setUsuarios(prev => prev.map(u => u.id_usuario === id ? { ...u, rol: newRol } : u));
+  };
+
+  const handleDeleteUser = async (id) => {
+    if (!confirm('¿Eliminar este usuario?')) return;
+    const token = localStorage.getItem('token');
+    await fetch(`/api/admin/users/${id}`, {
+      method: 'DELETE',
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    setUsuarios(prev => prev.filter(u => u.id_usuario !== id));
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -181,17 +217,77 @@ export default function Admin() {
       )}
 
       {tab === 'usuarios' && (
-        <div style={{ padding: 60, textAlign: 'center', background: 'var(--bg)', borderRadius: 'var(--radius-l)', border: '1px solid rgba(1,0,1,.08)' }}>
-          <div style={{ fontSize: 48 }}>👥</div>
-          <h3 style={{ marginTop: 12 }}>Gestión de usuarios</h3>
-          <p style={{ marginTop: 6 }}>CRUD de usuarios con roles admin/user.</p>
+        <div style={{ background: 'var(--bg)', borderRadius: 'var(--radius-l)', border: '1px solid rgba(1,0,1,.08)', overflow: 'hidden' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '60px 2fr 2fr 100px 120px', padding: '14px 20px', fontSize: 11, fontFamily: 'var(--font-mono)', letterSpacing: '.1em', color: 'var(--grafito)', textTransform: 'uppercase', borderBottom: '1px solid rgba(1,0,1,.08)' }}>
+            <div>ID</div><div>Nombre</div><div>Email</div><div>Rol</div><div></div>
+          </div>
+          {usuarios.map((u, i) => (
+            <div key={u.id_usuario} style={{
+              display: 'grid', gridTemplateColumns: '60px 2fr 2fr 100px 120px',
+              padding: '14px 20px', alignItems: 'center',
+              borderTop: i === 0 ? 0 : '1px solid rgba(1,0,1,.04)',
+              fontSize: 14,
+            }}
+              onMouseOver={e => e.currentTarget.style.background = 'var(--bg-2)'}
+              onMouseOut={e => e.currentTarget.style.background = ''}
+            >
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--grafito)' }}>#{String(u.id_usuario).padStart(3, '0')}</div>
+              <div style={{ fontWeight: 600 }}>{u.nombre}</div>
+              <div style={{ color: 'var(--grafito)', fontSize: 13 }}>{u.email}</div>
+              <div>
+                <span style={{
+                  padding: '4px 10px', borderRadius: 999, fontSize: 11, fontWeight: 700,
+                  background: u.rol === 'admin' ? 'rgba(190,61,61,.12)' : 'var(--bg-2)',
+                  color: u.rol === 'admin' ? 'var(--rojo)' : 'var(--grafito)',
+                }}>{u.rol}</span>
+              </div>
+              <div style={{ display: 'flex', gap: 12 }}>
+                <button onClick={() => handleRoleToggle(u.id_usuario, u.rol)}
+                  style={{ fontSize: 12, color: 'var(--rojo)', fontWeight: 600, background: 'none', border: 'none', cursor: 'pointer' }}>
+                  {u.rol === 'admin' ? '→ user' : '→ admin'}
+                </button>
+                <button onClick={() => handleDeleteUser(u.id_usuario)}
+                  style={{ fontSize: 12, color: 'var(--grafito)', background: 'none', border: 'none', cursor: 'pointer' }}>
+                  Eliminar
+                </button>
+              </div>
+            </div>
+          ))}
+          {usuarios.length === 0 && (
+            <div style={{ padding: 40, textAlign: 'center', color: 'var(--grafito)' }}>No hay usuarios registrados.</div>
+          )}
         </div>
       )}
       {tab === 'tests' && (
-        <div style={{ padding: 60, textAlign: 'center', background: 'var(--bg)', borderRadius: 'var(--radius-l)', border: '1px solid rgba(1,0,1,.08)' }}>
-          <div style={{ fontSize: 48 }}>📊</div>
-          <h3 style={{ marginTop: 12 }}>Histórico de tests</h3>
-          <p style={{ marginTop: 6 }}>Analítica de respuestas y perfiles más comunes.</p>
+        <div style={{ background: 'var(--bg)', borderRadius: 'var(--radius-l)', border: '1px solid rgba(1,0,1,.08)', overflow: 'hidden' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '60px 1.5fr 1.5fr 1.5fr 100px 140px', padding: '14px 20px', fontSize: 11, fontFamily: 'var(--font-mono)', letterSpacing: '.1em', color: 'var(--grafito)', textTransform: 'uppercase', borderBottom: '1px solid rgba(1,0,1,.08)' }}>
+            <div>ID</div><div>Usuario</div><div>Email</div><div>Vehículo</div><div>Afinidad</div><div>Fecha</div>
+          </div>
+          {testLogs.map((t, i) => (
+            <div key={t.id_test} style={{
+              display: 'grid', gridTemplateColumns: '60px 1.5fr 1.5fr 1.5fr 100px 140px',
+              padding: '14px 20px', alignItems: 'center',
+              borderTop: i === 0 ? 0 : '1px solid rgba(1,0,1,.04)',
+              fontSize: 14,
+            }}
+              onMouseOver={e => e.currentTarget.style.background = 'var(--bg-2)'}
+              onMouseOut={e => e.currentTarget.style.background = ''}
+            >
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--grafito)' }}>#{String(t.id_test).padStart(3, '0')}</div>
+              <div style={{ fontWeight: 600 }}>{t.usuario}</div>
+              <div style={{ color: 'var(--grafito)', fontSize: 13 }}>{t.email}</div>
+              <div>{t.marca} {t.modelo}</div>
+              <div style={{ fontWeight: 700, color: t.afinidad >= 70 ? 'var(--rojo)' : 'var(--grafito)' }}>
+                {Number(t.afinidad).toFixed(0)} %
+              </div>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--grafito)' }}>
+                {new Date(t.fecha).toLocaleDateString('es-ES')}
+              </div>
+            </div>
+          ))}
+          {testLogs.length === 0 && (
+            <div style={{ padding: 40, textAlign: 'center', color: 'var(--grafito)' }}>No hay tests registrados aún.</div>
+          )}
         </div>
       )}
     </div>
