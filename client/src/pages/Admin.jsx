@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { vehiclesAPI } from '../services/api';
+import api from '../services/api';
 import CarSilhouette, { variantFromPlazas } from '../components/CarSilhouette';
 import EnvBadge from '../components/EnvBadge';
 
@@ -39,35 +40,24 @@ export default function Admin() {
     const { data } = await vehiclesAPI.getAll();
     setVehiculos(data);
     try {
-      const token = localStorage.getItem('rwa_token');
-      const headers = { Authorization: `Bearer ${token}` };
       const [uRes, tRes] = await Promise.all([
-        fetch('/api/admin/users', { headers }),
-        fetch('/api/admin/tests', { headers }),
+        api.get('/admin/users'),
+        api.get('/admin/tests'),
       ]);
-      if (uRes.ok) setUsuarios(await uRes.json());
-      if (tRes.ok) setTestLogs(await tRes.json());
+      setUsuarios(uRes.data);
+      setTestLogs(tRes.data);
     } catch (e) { console.warn('Admin fetch error', e); }
   };
 
   const handleRoleToggle = async (id, currentRol) => {
     const newRol = currentRol === 'admin' ? 'user' : 'admin';
-    const token = localStorage.getItem('rwa_token');
-    await fetch(`/api/admin/users/${id}/role`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-      body: JSON.stringify({ rol: newRol }),
-    });
+    await api.put(`/admin/users/${id}/role`, { rol: newRol });
     setUsuarios(prev => prev.map(u => u.id_usuario === id ? { ...u, rol: newRol } : u));
   };
 
   const handleDeleteUser = async (id) => {
     if (!confirm('¿Eliminar este usuario?')) return;
-    const token = localStorage.getItem('rwa_token');
-    await fetch(`/api/admin/users/${id}`, {
-      method: 'DELETE',
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    await api.delete(`/admin/users/${id}`);
     setUsuarios(prev => prev.filter(u => u.id_usuario !== id));
   };
 
