@@ -1,8 +1,11 @@
+import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import VehicleCard from '../components/VehicleCard';
 import MatchDial from '../components/MatchDial';
 import EnvBadge from '../components/EnvBadge';
 import CarSilhouette, { variantFromPlazas } from '../components/CarSilhouette';
+import { garageAPI } from '../services/api';
+import { useAuth } from '../context/AuthContext';
 
 function ArrowIcon() {
   return (
@@ -23,6 +26,21 @@ export default function Results() {
       <button className="btn btn-red" onClick={() => navigate('/test')}>Ir al test</button>
     </div>
   );
+
+  const { user } = useAuth();
+  const [saved, setSaved] = useState({});
+
+  const handleSave = async (id_vehiculo) => {
+    if (!user) { navigate('/login'); return; }
+    try {
+      await garageAPI.add(id_vehiculo);
+      setSaved(prev => ({ ...prev, [id_vehiculo]: true }));
+    } catch (err) {
+      if (err.response?.status === 409) {
+        setSaved(prev => ({ ...prev, [id_vehiculo]: true }));
+      }
+    }
+  };
 
   const top  = resultados[0];
   const rest = resultados.slice(1);
@@ -106,6 +124,28 @@ export default function Results() {
             </div>
           ))}
         </div>
+
+        <div style={{ display: 'flex', gap: 10, marginTop: 20 }}>
+          <button
+            className="btn btn-xl"
+            style={{
+              background: saved[top.id_vehiculo] ? 'rgba(255,255,255,.15)' : 'var(--rojo)',
+              color: 'white',
+              border: '1px solid rgba(255,255,255,.2)',
+            }}
+            onClick={() => handleSave(top.id_vehiculo)}
+            disabled={saved[top.id_vehiculo]}
+          >
+            {saved[top.id_vehiculo] ? '✓ Guardado en tu garaje' : '＋ Guardar en mi garaje'}
+          </button>
+          <button
+            className="btn btn-xl"
+            style={{ background: 'rgba(255,255,255,.1)', color: 'white', border: '1px solid rgba(255,255,255,.2)' }}
+            onClick={() => navigate(`/vehiculo/${top.id_vehiculo}`)}
+          >
+            Ver ficha completa <span className="arrow">→</span>
+          </button>
+        </div>
       </section>
 
       {/* Otros candidatos */}
@@ -117,7 +157,21 @@ export default function Results() {
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(290px, 1fr))', gap: 18 }}>
             {rest.map(v => (
-              <VehicleCard key={v.id_vehiculo} vehiculo={v} afinidad={v.afinidad} />
+              <div key={v.id_vehiculo} style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                <VehicleCard vehiculo={v} afinidad={v.afinidad} />
+                <button
+                  className="btn btn-ghost"
+                  style={{
+                    width: '100%',
+                    color: saved[v.id_vehiculo] ? 'var(--grafito)' : 'var(--ink)',
+                    fontSize: 13,
+                  }}
+                  onClick={() => handleSave(v.id_vehiculo)}
+                  disabled={saved[v.id_vehiculo]}
+                >
+                  {saved[v.id_vehiculo] ? '✓ Guardado' : '＋ Guardar en mi garaje'}
+                </button>
+              </div>
             ))}
           </div>
         </section>
