@@ -53,4 +53,17 @@ router.get('/admin/tests', verifyAdmin, async (req, res) => {
   }
 });
 
+// Stats públicas (sin auth)
+router.get('/stats', async (req, res) => {
+  const pool = require('../config/db');
+  try {
+    const [[{ tests }]]    = await pool.query('SELECT COUNT(*) AS tests FROM tests');
+    const [[{ vehiculos }]] = await pool.query('SELECT COUNT(*) AS vehiculos FROM vehiculos');
+    const [[{ media }]]    = await pool.query('SELECT ROUND(AVG(afinidad), 0) AS media FROM tests');
+    res.json({ tests, vehiculos, media: media || 0 });
+  } catch (err) {
+    res.status(500).json({ error: 'Error interno.' });
+  }
+});
+
 module.exports = router;

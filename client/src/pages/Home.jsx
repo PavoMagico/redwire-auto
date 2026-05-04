@@ -1,4 +1,6 @@
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import api from '../services/api';
 import CarSilhouette from '../components/CarSilhouette';
 
 const tickerItems = [
@@ -26,6 +28,11 @@ const perfiles = [
 
 export default function Home() {
   const navigate = useNavigate();
+  const [stats, setStats] = useState({ tests: null, vehiculos: null, media: null });
+
+  useEffect(() => {
+    api.get('/stats').then(r => setStats(r.data)).catch(() => {});
+  }, []);
 
   return (
     <div className="screen">
@@ -85,10 +92,10 @@ export default function Home() {
             animationDelay: '.5s',
           }}>
             {[
-              ['256 422', 'tests completados'],
-              ['94 %', 'coincidencia media'],
-              ['1 842', 'vehículos en catálogo'],
-              ['3 min', 'para tu match'],
+              [stats.tests !== null ? Number(stats.tests).toLocaleString('es-ES') : '—', 'tests completados'],
+              [stats.media !== null && stats.media > 0 ? `${stats.media} %` : '—', 'coincidencia media'],
+              [stats.vehiculos !== null ? Number(stats.vehiculos).toLocaleString('es-ES') : '—', 'vehículos en catálogo'],
+              ['2 min', 'para tu match'],
             ].map(([v, l], i) => (
               <div key={i} style={{ padding: '22px 24px', background: 'var(--bg)' }}>
                 <div style={{ fontFamily: 'var(--font-display)', fontSize: 34, fontWeight: 700, letterSpacing: '-.02em' }}>{v}</div>
