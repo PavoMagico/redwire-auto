@@ -39,7 +39,7 @@ export default function Admin() {
     const { data } = await vehiclesAPI.getAll();
     setVehiculos(data);
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('rwa_token');
       const headers = { Authorization: `Bearer ${token}` };
       const [uRes, tRes] = await Promise.all([
         fetch('/api/admin/users', { headers }),
@@ -52,7 +52,7 @@ export default function Admin() {
 
   const handleRoleToggle = async (id, currentRol) => {
     const newRol = currentRol === 'admin' ? 'user' : 'admin';
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('rwa_token');
     await fetch(`/api/admin/users/${id}/role`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
@@ -63,7 +63,7 @@ export default function Admin() {
 
   const handleDeleteUser = async (id) => {
     if (!confirm('¿Eliminar este usuario?')) return;
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('rwa_token');
     await fetch(`/api/admin/users/${id}`, {
       method: 'DELETE',
       headers: { Authorization: `Bearer ${token}` },
