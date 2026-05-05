@@ -271,16 +271,22 @@ p { color: var(--grafito); line-height: 1.55; }
   .nav { padding: 14px 18px; }
   .nav ul {
     position: fixed; inset: 0; top: 60px; z-index: 200;
-    flex-direction: column; gap: 0;
+    display: flex; flex-direction: column; gap: 0;
     background: rgba(252,252,250,.96);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border-top: 1px solid rgba(1,0,1,.08);
     padding: 24px 20px;
+    opacity: 0;
+    visibility: hidden;
     transform: translateX(100%);
-    transition: transform .35s var(--spring-soft);
+    transition: transform .35s var(--spring-soft), opacity .3s, visibility .3s;
   }
-  .nav ul.open { transform: translateX(0); }
+  .nav ul.open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
+  }
   .nav ul a { padding: 16px 12px; font-size: 18px; border-bottom: 1px solid rgba(1,0,1,.06); border-radius: 0; }
   .nav .nav-actions { gap: 8px; }
   .nav .nav-actions .btn { padding: 8px 14px; font-size: 12px; }

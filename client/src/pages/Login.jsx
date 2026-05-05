@@ -48,16 +48,16 @@ export default function Login({ defaultMode = 'login' }) {
   return (
     <div className="screen" style={{ minHeight: 'calc(100vh - 200px)', display: 'grid', placeItems: 'center', padding: '60px 20px' }}>
       <div style={{
-        display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 0,
+        display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 0,
         maxWidth: 980, width: '100%',
         background: 'var(--bg)', borderRadius: 'var(--radius-xl)',
         overflow: 'hidden', boxShadow: 'var(--shadow-lg)',
       }}>
         {/* Left visual panel */}
         <div style={{
-          padding: 48, background: 'var(--ink)', color: 'var(--bg)',
+          padding: 'clamp(24px, 5vw, 48px)', background: 'var(--ink)', color: 'var(--bg)',
           position: 'relative', overflow: 'hidden',
-          display: 'flex', flexDirection: 'column', justifyContent: 'space-between', minHeight: 560,
+          display: 'flex', flexDirection: 'column', justifyContent: 'space-between', minHeight: 320,
         }}>
           <svg style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', opacity: .2 }} viewBox="0 0 400 600" preserveAspectRatio="none" aria-hidden>
             <path d="M-20 120 Q 100 140, 200 100 T 420 140" stroke="var(--rojo)" strokeWidth="2" fill="none" className="wire-draw" />
@@ -80,7 +80,7 @@ export default function Login({ defaultMode = 'login' }) {
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} style={{ padding: 48, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+        <form onSubmit={handleSubmit} style={{ padding: 'clamp(24px, 5vw, 48px)', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
           {/* Toggle */}
           <div style={{ display: 'flex', background: 'var(--bg-2)', borderRadius: 999, padding: 4, width: 'fit-content', marginBottom: 28 }}>
             {[['login', 'Entrar'], ['registro', 'Registrarme']].map(([m, label]) => (
