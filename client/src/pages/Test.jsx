@@ -50,6 +50,27 @@ const preguntas = [
       { label: 'ECO o mejor',    value: 'ECO' },
       { label: 'Me da igual',    value: 'cualquiera' },
     ]},
+  { categoria: 1, pregunta: '¿Qué forma de coche te ves conduciendo?', campo: 'carroceria',
+    opciones: [
+      { label: 'Algo alto y grande (tipo SUV)',           value: 'suv' },
+      { label: 'Un coche "normal" de toda la vida',      value: 'berlina' },
+      { label: 'Pequeñito, fácil de aparcar',            value: 'compacto' },
+      { label: 'Algo bajo y divertido, de esos que molan', value: 'deportivo' },
+    ]},
+  { categoria: 2, pregunta: '¿Qué te importa más cuando conduces?', campo: 'prioridad',
+    opciones: [
+      { label: 'Pasarlo bien en las curvas',  value: 'diversion' },
+      { label: 'Ir cómodo y tranquilo',       value: 'confort' },
+      { label: 'Gastar lo mínimo posible',    value: 'eficiencia' },
+      { label: 'Que quepa todo y todos',      value: 'practicidad' },
+    ]},
+  { categoria: 1, pregunta: '¿Conducir con el pelo al viento?', campo: 'descapotable',
+    opciones: [
+      { label: 'Sí, quiero descapotable sí o sí',        value: 'imprescindible' },
+      { label: 'Molaría, pero no es lo que más me importa', value: 'gustaria' },
+      { label: 'Me da bastante igual',                    value: 'igual' },
+      { label: 'Ni loco, quiero techo y ya',             value: 'no' },
+    ]},
 ];
 
 function ArrowIcon() {
