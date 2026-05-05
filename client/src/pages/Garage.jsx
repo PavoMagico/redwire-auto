@@ -47,7 +47,7 @@ export default function Garage() {
           </h1>
           <p style={{ color: 'var(--topo-2)', marginTop: 8, maxWidth: 480 }}>
             {vehiculos.length > 0
-              ? `Tienes ${vehiculos.length} vehículo${vehiculos.length > 1 ? 's' : ''} guardado${vehiculos.length > 1 ? 's' : ''}. Respira, no hay prisa.`
+              ? `Tienes ${vehiculos.length} vehículo${vehiculos.length > 1 ? 's' : ''} guardado${vehiculos.length > 1 ? 's' : ''}.`
               : 'Todavía no has guardado nada. Un buen sitio para empezar es el test.'}
           </p>
         </div>
