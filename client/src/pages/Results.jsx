@@ -68,7 +68,7 @@ export default function Results() {
       {/* TOP MATCH HERO */}
       <section style={{
         background: 'var(--ink)', color: 'var(--bg)',
-        borderRadius: 'var(--radius-xl)', padding: '36px 40px',
+        borderRadius: 'var(--radius-xl)', padding: 'clamp(24px, 4vw, 36px) clamp(20px, 4vw, 40px)',
         position: 'relative', overflow: 'hidden',
         boxShadow: 'var(--shadow-lg)',
       }} className="bounce-in">
@@ -77,12 +77,12 @@ export default function Results() {
           <circle cx="100" cy="100" r="55" stroke="var(--rojo)" strokeWidth="2" fill="none" />
         </svg>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1.1fr 1fr', gap: 40, position: 'relative' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 40, position: 'relative' }}>
           <div>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, letterSpacing: '.14em', color: 'var(--rojo)' }}>
               ★ TU MATCH #1
             </div>
-            <h1 style={{ fontSize: 64, fontWeight: 600, marginTop: 12, color: 'var(--bg)', lineHeight: 1 }}>
+            <h1 style={{ fontSize: 'clamp(36px, 8vw, 64px)', fontWeight: 600, marginTop: 12, color: 'var(--bg)', lineHeight: 1 }}>
               {top.marca}<br />{top.modelo}
             </h1>
             {top.detalles && (
@@ -109,7 +109,7 @@ export default function Results() {
 
         {/* Key stats */}
         <div style={{
-          display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 1,
+          display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: 1,
           marginTop: 32, background: 'rgba(255,255,255,.1)', borderRadius: 16, overflow: 'hidden',
         }}>
           {[
@@ -180,7 +180,7 @@ export default function Results() {
       {/* Compare teaser */}
       <section style={{
         marginTop: 64, background: 'var(--bg-2)', borderRadius: 'var(--radius-xl)',
-        padding: 40, display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 40,
+        padding: 'clamp(24px, 4vw, 40px)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 24,
         flexWrap: 'wrap',
       }}>
         <div>

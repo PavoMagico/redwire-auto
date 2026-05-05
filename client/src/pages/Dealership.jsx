@@ -52,6 +52,7 @@ export default function Dealership() {
   const [etiqueta,  setEtiqueta]  = useState('');
   const [plazas,    setPlazas]    = useState('');
   const [precioMax, setPrecioMax] = useState(60000);
+  const [filtersOpen, setFiltersOpen] = useState(false);
 
   useEffect(() => { fetchVehiculos(); }, [motor, etiqueta, plazas]);
 
@@ -89,19 +90,24 @@ export default function Dealership() {
         </button>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '280px 1fr', gap: 32 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 280px) 1fr', gap: 32 }} className="dealership-layout">
         {/* SIDEBAR */}
         <aside style={{
-          position: 'sticky', top: 90, alignSelf: 'start',
+          alignSelf: 'start',
           background: 'var(--bg)', padding: 24, borderRadius: 'var(--radius-l)',
           border: '1px solid rgba(1,0,1,.08)',
-        }}>
+        }} className="dealership-sidebar">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 18 }}>
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 600, fontSize: 18, display: 'flex', alignItems: 'center', gap: 8 }}>
+            <button
+              style={{ fontFamily: 'var(--font-display)', fontWeight: 600, fontSize: 18, display: 'flex', alignItems: 'center', gap: 8, background: 'none', border: 'none', cursor: 'pointer' }}
+              onClick={() => setFiltersOpen(!filtersOpen)}
+            >
               <FilterIcon /> Filtros
-            </div>
+            </button>
             <button style={{ fontSize: 12, color: 'var(--rojo)', fontWeight: 600, background: 'none', border: 'none', cursor: 'pointer' }} onClick={reset}>Limpiar</button>
           </div>
+
+          <div className={`filter-body${filtersOpen ? ' filter-open' : ''}`}>
 
           {/* Search */}
           <div style={{ position: 'relative', marginBottom: 4 }}>
@@ -138,6 +144,8 @@ export default function Dealership() {
               <span>5k €</span><span>60k €</span>
             </div>
           </div>
+
+          </div>{/* end filter-body */}
 
           <div style={{ marginTop: 22, padding: 14, background: 'var(--bg-2)', borderRadius: 12, fontSize: 13 }}>
             <strong>{filtered.length}</strong> vehículo{filtered.length !== 1 ? 's' : ''} coinciden

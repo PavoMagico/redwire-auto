@@ -258,3 +258,57 @@ p { color: var(--grafito); line-height: 1.55; }
 /* ===== No scrollbar ===== */
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { scrollbar-width: none; }
+
+/* ============================================================
+   RESPONSIVE — Mobile first breakpoints
+   ============================================================ */
+
+/* Hamburger toggle (hidden on desktop) */
+.nav-toggle { display: none; }
+
+@media (max-width: 768px) {
+  /* NAV */
+  .nav { padding: 14px 18px; }
+  .nav ul {
+    position: fixed; inset: 0; top: 60px; z-index: 200;
+    flex-direction: column; gap: 0;
+    background: rgba(252,252,250,.97);
+    backdrop-filter: blur(16px);
+    padding: 24px 20px;
+    transform: translateX(100%);
+    transition: transform .35s var(--spring-soft);
+  }
+  .nav ul.open { transform: translateX(0); }
+  .nav ul a { padding: 16px 12px; font-size: 18px; border-bottom: 1px solid rgba(1,0,1,.06); border-radius: 0; }
+  .nav .nav-actions { gap: 8px; }
+  .nav .nav-actions .btn { padding: 8px 14px; font-size: 12px; }
+  .nav-toggle {
+    display: flex; align-items: center; justify-content: center;
+    width: 38px; height: 38px; border-radius: 10px;
+    background: var(--bg-2); border: none; cursor: pointer;
+    font-size: 20px;
+  }
+
+  /* PAGE */
+  .page { padding: 20px 16px 60px; }
+
+  /* FOOTER */
+  .footer { padding: 32px 16px 24px; }
+  .footer-inner { grid-template-columns: 1fr; gap: 24px; text-align: center; }
+  .footer-links { justify-content: center; }
+
+  /* TYPOGRAPHY */
+  h1 { font-size: clamp(32px, 9vw, 52px); }
+  h2 { font-size: clamp(26px, 7vw, 40px); }
+
+  /* DEALERSHIP */
+  .dealership-layout { grid-template-columns: 1fr !important; }
+  .dealership-sidebar { position: static !important; }
+  .filter-body { display: none; }
+  .filter-body.filter-open { display: block; }
+}
+
+@media (max-width: 480px) {
+  .nav .nav-actions .btn.btn-red { display: none; }
+  .btn.btn-xl { padding: 14px 20px; font-size: 14px; }
+}

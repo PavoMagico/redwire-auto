@@ -37,7 +37,7 @@ export default function Home() {
   return (
     <div className="screen">
       {/* ========= HERO ========= */}
-      <section style={{ position: 'relative', padding: '72px 40px 96px', maxWidth: 1440, margin: '0 auto', overflow: 'hidden' }}>
+      <section style={{ position: 'relative', padding: 'clamp(32px, 8vw, 72px) clamp(16px, 4vw, 40px) clamp(48px, 10vw, 96px)', maxWidth: 1440, margin: '0 auto', overflow: 'hidden' }}>
         {/* Cable rojo de fondo */}
         <svg style={{ position: 'absolute', top: 120, left: -60, width: '120%', height: '80%', pointerEvents: 'none', zIndex: 0 }}
           viewBox="0 0 1400 600" preserveAspectRatio="none" aria-hidden>
@@ -87,7 +87,7 @@ export default function Home() {
           {/* Métricas */}
           <div className="slide-up" style={{
             marginTop: 72, display: 'grid',
-            gridTemplateColumns: 'repeat(4, 1fr)', gap: 2,
+            gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 2,
             background: 'rgba(1,0,1,.08)', borderRadius: 18, overflow: 'hidden',
             animationDelay: '.5s',
           }}>
@@ -127,7 +127,7 @@ export default function Home() {
       </div>
 
       {/* ========= PERFILES ========= */}
-      <section style={{ maxWidth: 1280, margin: '0 auto', padding: '96px 40px 32px' }}>
+      <section style={{ maxWidth: 1280, margin: '0 auto', padding: 'clamp(48px, 8vw, 96px) clamp(16px, 4vw, 40px) 32px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'end', marginBottom: 40, flexWrap: 'wrap', gap: 24 }}>
           <div>
             <div className="eyebrow">Tres de los 12 perfiles</div>
@@ -138,7 +138,7 @@ export default function Home() {
           </p>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 20 }}>
           {perfiles.map((p, i) => (
             <article key={p.name} className="hoverable slide-up" style={{
               animationDelay: `${.1 + i * .1}s`,
@@ -181,9 +181,9 @@ export default function Home() {
       </section>
 
       {/* ========= HOW IT WORKS ========= */}
-      <section style={{ maxWidth: 1280, margin: '0 auto', padding: '80px 40px' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.2fr', gap: 80, alignItems: 'start' }}>
-          <div style={{ position: 'sticky', top: 100 }}>
+      <section style={{ maxWidth: 1280, margin: '0 auto', padding: 'clamp(40px, 8vw, 80px) clamp(16px, 4vw, 40px)' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 'clamp(32px, 6vw, 80px)', alignItems: 'start' }}>
+          <div>
             <div className="eyebrow">Cómo funciona</div>
             <h2 style={{ marginTop: 14 }}>Todo lo que necesitas, y un poco más.</h2>
             <p style={{ marginTop: 20, fontSize: 16 }}>
@@ -206,8 +206,8 @@ export default function Home() {
               { step: '03', title: 'Garaje virtual', desc: 'Guarda tus resultados para poder ver tus vehículos. No tus preferidos, los tuyos. La vida es así.', icon: '🚗' },
             ].map((s, i) => (
               <div key={i} className="hoverable" style={{
-                display: 'grid', gridTemplateColumns: '80px 1fr auto',
-                gap: 20, alignItems: 'center', padding: 24,
+                display: 'grid', gridTemplateColumns: '60px 1fr auto',
+                gap: 16, alignItems: 'center', padding: 'clamp(16px, 3vw, 24px)',
                 background: 'var(--bg)', border: '1px solid rgba(1,0,1,.08)',
                 borderRadius: 'var(--radius)', cursor: 'pointer',
                 boxShadow: 'var(--shadow-sm)',
@@ -227,7 +227,7 @@ export default function Home() {
       {/* ========= MANIFESTO BANNER ========= */}
       <section style={{
         background: 'var(--ink)', color: 'var(--bg)',
-        padding: '80px 40px', marginTop: 40,
+        padding: 'clamp(40px, 8vw, 80px) clamp(16px, 4vw, 40px)', marginTop: 40,
         position: 'relative', overflow: 'hidden',
       }}>
         <svg style={{ position: 'absolute', right: -60, top: -40, width: 440, height: 440, opacity: .08 }} viewBox="0 0 200 200" aria-hidden>
@@ -235,12 +235,12 @@ export default function Home() {
           <circle cx="100" cy="100" r="60" stroke="var(--rojo)" strokeWidth="2" fill="none" />
           <circle cx="100" cy="100" r="30" stroke="var(--rojo)" strokeWidth="2" fill="none" />
         </svg>
-        <div style={{ maxWidth: 1280, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr auto', gap: 60, alignItems: 'center' }}>
+        <div style={{ maxWidth: 1280, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 'clamp(24px, 4vw, 60px)', alignItems: 'center' }}>
           <div>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: 12, letterSpacing: '.12em', color: 'var(--rojo)', marginBottom: 18 }}>
               EL MANIFIESTO
             </div>
-            <div style={{ fontFamily: 'var(--font-display)', fontSize: 40, fontWeight: 600, letterSpacing: '-.02em', lineHeight: 1.1, maxWidth: 800 }}>
+            <div style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(22px, 4vw, 40px)', fontWeight: 600, letterSpacing: '-.02em', lineHeight: 1.1, maxWidth: 800 }}>
               "El coche perfecto no existe. Existe <span style={{ color: 'var(--rojo)' }}>el coche para ti</span>, y es bastante menos glamoroso de lo que crees. Ya era hora de que alguien te lo dijera."
             </div>
             <div style={{ marginTop: 28, fontSize: 13, color: 'var(--topo-2)', letterSpacing: '.04em' }}>

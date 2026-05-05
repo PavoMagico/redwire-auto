@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import Logo from './Logo';
@@ -7,19 +8,26 @@ export default function Navbar() {
   const navigate  = useNavigate();
   const { pathname } = useLocation();
   const isActive = p => pathname === p ? 'active' : '';
+  const [open, setOpen] = useState(false);
+
+  const close = () => setOpen(false);
 
   return (
     <nav className="nav">
-      <Link to="/" className="brand">
+      <Link to="/" className="brand" onClick={close}>
         <Logo size={28} />
       </Link>
 
-      <ul>
-        <li><Link to="/" className={isActive('/')}>Inicio</Link></li>
-        <li><Link to="/test" className={isActive('/test')}>Test</Link></li>
-        <li><Link to="/concesionario" className={isActive('/concesionario')}>Concesionario</Link></li>
-        {user && <li><Link to="/garaje" className={isActive('/garaje')}>Mi Garaje</Link></li>}
-        {isAdmin && <li><Link to="/admin" className={isActive('/admin')} style={{ color: 'var(--rojo)' }}>Admin</Link></li>}
+      <button className="nav-toggle" onClick={() => setOpen(!open)} aria-label="Menú">
+        {open ? '✕' : '☰'}
+      </button>
+
+      <ul className={open ? 'open' : ''}>
+        <li><Link to="/" className={isActive('/')} onClick={close}>Inicio</Link></li>
+        <li><Link to="/test" className={isActive('/test')} onClick={close}>Test</Link></li>
+        <li><Link to="/concesionario" className={isActive('/concesionario')} onClick={close}>Concesionario</Link></li>
+        {user && <li><Link to="/garaje" className={isActive('/garaje')} onClick={close}>Mi Garaje</Link></li>}
+        {isAdmin && <li><Link to="/admin" className={isActive('/admin')} onClick={close} style={{ color: 'var(--rojo)' }}>Admin</Link></li>}
       </ul>
 
       <div className="nav-actions">
@@ -42,7 +50,7 @@ export default function Navbar() {
               {user.nombre?.split(' ')[0]}
             </div>
             <button className="btn btn-ghost"
-              onClick={() => { logout(); navigate('/'); }}
+              onClick={() => { logout(); navigate('/'); close(); }}
               style={{ fontSize: 13 }}>
               Salir
             </button>

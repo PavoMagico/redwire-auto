@@ -115,7 +115,7 @@ export default function Test() {
   );
 
   return (
-    <div className="screen" style={{ maxWidth: 1100, margin: '0 auto', padding: '40px 32px 80px' }}>
+    <div className="screen" style={{ maxWidth: 1100, margin: '0 auto', padding: 'clamp(20px, 4vw, 40px) clamp(16px, 3vw, 32px) 80px' }}>
       {/* TOP BAR */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32 }}>
         <button className="btn btn-ghost" onClick={handleBack} style={{ fontSize: 13 }}>
@@ -131,7 +131,7 @@ export default function Test() {
       </div>
 
       {/* CATEGORY CHIPS */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12, marginBottom: 40 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 12, marginBottom: 40 }}>
         {catsMeta.map((c, i) => (
           <div key={i} style={{
             padding: '14px 18px', borderRadius: 14,
@@ -180,10 +180,10 @@ export default function Test() {
 
       {/* QUESTION */}
       <div key={paso} style={{ animation: dir > 0 ? 'qIn .55s var(--spring-bounce) both' : 'qBack .55s var(--spring-bounce) both' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 60, alignItems: 'start' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 'clamp(24px, 5vw, 60px)', alignItems: 'start' }}>
           <div>
             <div className="eyebrow">{CATEGORIAS[actual.categoria].icon} {CATEGORIAS[actual.categoria].label}</div>
-            <h2 style={{ marginTop: 18, fontSize: 44, fontWeight: 600, lineHeight: 1.05 }}>
+            <h2 style={{ marginTop: 18, fontSize: 'clamp(28px, 5vw, 44px)', fontWeight: 600, lineHeight: 1.05 }}>
               {actual.pregunta}
             </h2>
             <p style={{ marginTop: 16, fontSize: 14 }}>No hay respuestas malas. Solo respuestas honestas.</p>
