@@ -49,7 +49,7 @@ a { color: inherit; text-decoration: none; }
 input, select, textarea { font-family: inherit; }
 
 /* ===== App shell ===== */
-.app-shell { min-height: 100vh; display: flex; flex-direction: column; background: var(--bg); }
+.app-shell { min-height: 100vh; display: flex; flex-direction: column; background: var(--bg); overflow-x: hidden; }
 
 /* ===== NAV ===== */
 .nav {
@@ -67,7 +67,7 @@ input, select, textarea { font-family: inherit; }
   font-weight: 700; font-size: 17px; letter-spacing: -.01em;
   cursor: pointer; border: none; background: none;
 }
-.nav ul, .nav-desktop {
+.nav ul {
   list-style: none; display: flex; gap: 8px; padding: 0; margin: 0;
 }
 .nav ul a, .nav-desktop a {
@@ -271,7 +271,7 @@ p { color: var(--grafito); line-height: 1.55; }
 @media (max-width: 768px) {
   /* NAV */
   .nav { padding: 14px 18px; }
-  .nav-desktop { display: none; }
+  .nav-desktop { display: none !important; }
   .nav .nav-actions { gap: 8px; }
   .nav .nav-actions .btn { padding: 8px 14px; font-size: 12px; }
   .nav-cta-desktop { display: none !important; }
