@@ -25,6 +25,11 @@ export default function Navbar() {
   return (
     <>
       <nav className="nav">
+        {/* Mobile: toggle left */}
+        <button className="nav-toggle" onClick={() => setOpen(!open)} aria-label="Menú">
+          {open ? '✕' : '☰'}
+        </button>
+
         <Link to="/" className="brand" onClick={close}>
           <Logo size={28} />
         </Link>
@@ -51,7 +56,7 @@ export default function Navbar() {
                 }}>
                   {user.nombre?.[0]?.toUpperCase() || 'U'}
                 </span>
-                {user.nombre?.split(' ')[0]}
+                <span className="nav-username">{user.nombre?.split(' ')[0]}</span>
               </div>
               <button className="btn btn-ghost"
                 onClick={() => { logout(); navigate('/'); close(); }}
@@ -68,10 +73,6 @@ export default function Navbar() {
             </>
           )}
         </div>
-
-        <button className="nav-toggle" onClick={() => setOpen(!open)} aria-label="Menú">
-          {open ? '✕' : '☰'}
-        </button>
       </nav>
 
       {/* Mobile overlay menu */}
